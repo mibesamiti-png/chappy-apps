@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "local.chappy.asmr",
+      "name": "ASMR Sound Lab",
+      "description": "オフラインのバイノーラル・ASMR音響実験アプリ（v1.4）",
+      "version": "1.4.0",
+      "channel": "stable",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/stable/asmr-sound-lab.chappy",
+      "sha256": "89c09a9c7c61c7e9bb6912516eb1b0bbc5303c0f5d212ab07ca10419f4ba545f",
+      "sizeBytes": 130390
+    }
+  ]
+}
