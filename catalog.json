@@ -14,12 +14,12 @@
     {
       "id": "local.chappy.media_probe",
       "name": "Chappy Media Lab",
-      "description": "カメラ・マイク検証（基本入力・高度な音声入力の比較と診断ログ）",
-      "version": "0.1.1",
+      "description": "高解像度カメラ選択・マイク入力診断を追加した検証版（実機未検証）",
+      "version": "0.1.2",
       "channel": "debug",
-      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/media-probe.chappy",
-      "sha256": "fc1fd88a45bffd672c5c3254ad041f29f25a3cbb818833af52580b6d3f03990e",
-      "sizeBytes": 9902
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/media-probe-v0.1.2.chappy",
+      "sha256": "0bbb4561b35e34712cd91a3b3794027fbef9de3d23f0a223952c01540392da1b",
+      "sizeBytes": 13023
     }
   ]
 }
