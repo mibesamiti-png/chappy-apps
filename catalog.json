@@ -10,6 +10,16 @@
       "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/stable/asmr-sound-lab.chappy",
       "sha256": "89c09a9c7c61c7e9bb6912516eb1b0bbc5303c0f5d212ab07ca10419f4ba545f",
       "sizeBytes": 130390
+    },
+    {
+      "id": "local.chappy.media_probe",
+      "name": "Chappy Media Lab",
+      "description": "カメラプレビュー・写真撮影・マイク波形の開発用テスト（実機検証中）",
+      "version": "0.1.0",
+      "channel": "debug",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/media-probe.chappy",
+      "sha256": "b05e8f7a65b97f70b68a1fe866a75ae994a09738cb43e1017d4ce2c5e1aca2c8",
+      "sizeBytes": 8374
     }
   ]
 }
