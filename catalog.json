@@ -14,12 +14,12 @@
     {
       "id": "local.chappy.media_probe",
       "name": "Chappy Media Lab",
-      "description": "カメラプレビュー・写真撮影・マイク波形の開発用テスト（実機検証中）",
-      "version": "0.1.0",
+      "description": "カメラ・マイク検証（基本入力・高度な音声入力の比較と診断ログ）",
+      "version": "0.1.1",
       "channel": "debug",
       "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/media-probe.chappy",
-      "sha256": "b05e8f7a65b97f70b68a1fe866a75ae994a09738cb43e1017d4ce2c5e1aca2c8",
-      "sizeBytes": 8374
+      "sha256": "fc1fd88a45bffd672c5c3254ad041f29f25a3cbb818833af52580b6d3f03990e",
+      "sizeBytes": 9902
     }
   ]
 }
