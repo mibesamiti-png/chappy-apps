@@ -5,7 +5,7 @@ Offline `.chappy` mini-app distribution for Chappy Player. The player loads `cat
 ## Current catalog
 
 - **Stable** — `stable/asmr-sound-lab.chappy`: ASMR Sound Lab v1.4.0
-- **Debug** — `debug/media-probe-v0.1.4.chappy`: Chappy Media Lab v0.1.4, native CameraX video, dark recording UI and private video library. **Android physical-device QA is still required.**
+- **Debug** — `debug/media-probe-v0.1.5.chappy`: Chappy Media Lab v0.1.4, native CameraX video, tiny dark-mode recording LED, volume-key shortcuts, and private video list/play/delete. **Android physical-device QA is still required.**
 - The older `debug/media-probe-v0.1.2.chappy` and `debug/media-probe.chappy` files remain for manual rollback but are **not** advertised by `catalog.json`.
 
 Installing or updating a mini-app from **Chappy Player → Chappy Apps → Debug** needs no manual ZIP import. Installing a mini-app does not update the host player's Android code: CameraX recording APIs require a compatible Debug APK until the feature is tested and shipped in the signed release.
