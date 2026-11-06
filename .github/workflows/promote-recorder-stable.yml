@@ -1,0 +1,134 @@
+name: Promote Chappy Recorder to Stable after production v0.3.0
+
+# Exactly one audited Debug Recorder package is copied byte-for-byte to Stable,
+# but ONLY when the public *signed* production APK update feed is compatible.
+on:
+  push:
+    paths:
+      - .github/workflows/promote-recorder-stable.yml
+  workflow_dispatch:
+  schedule:
+    - cron: '29 */6 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: recorder-stable-promotion
+  cancel-in-progress: false
+
+jobs:
+  publish-stable:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out public Chappy Apps catalog
+        uses: actions/checkout@v4
+
+      - name: Require signed production Chappy Player >= 0.3.0
+        run: |
+          python3 - <<'PY'
+          import json
+          from urllib.request import Request, urlopen
+
+          source = 'https://raw.githubusercontent.com/mibesamiti-png/chappy-player-updates/main/update.json'
+          req = Request(source, headers={'User-Agent': 'chappy-recorder-stable-promoter'})
+          try:
+              with urlopen(req, timeout=20) as response:
+                  feed = json.loads(response.read(65536))
+          except Exception as error:
+              raise SystemExit(f'Cannot verify official production feed; no Stable promotion: {error}')
+          if feed.get('packageId') != 'dev.chappy.chappy_player' or feed.get('schemaVersion') != 1:
+              raise SystemExit('Production update feed identity invalid')
+          version = feed.get('version', '0.0.0')
+          parts = version.split('.')
+          if len(parts) != 3 or not all(part.isdecimal() for part in parts):
+              raise SystemExit('Invalid production version')
+          if tuple(int(part) for part in parts) < (0, 3, 0):
+              print(f'Stable recorder blocked: production signed host v{version} < v0.3.0')
+              raise SystemExit(0)
+          artifacts = feed.get('artifacts')
+          if (not isinstance(artifacts, list) or len(artifacts) != 3
+                  or {part.get('abi') for part in artifacts if isinstance(part, dict)}
+                     != {'arm64-v8a', 'armeabi-v7a', 'x86_64'}):
+              raise SystemExit('Production feed lacks three signed ABI artifacts')
+          for item in artifacts:
+              if not item.get('url', '').startswith(
+                  'https://github.com/mibesamiti-png/chappy-player-updates/releases/download/'):
+                  raise SystemExit('Unexpected production APK host')
+          with open('recorder-stable-host-approved.txt', 'w', encoding='utf-8') as result:
+              result.write(version)
+          print(f'Verified signed production feed v{version} for recorder promotion')
+          PY
+
+      - name: Promote exact audited Debug bytes, never rebuild
+        run: |
+          if [ ! -f recorder-stable-host-approved.txt ]; then
+            echo 'Production player not yet published; waiting for the public update feed'
+            exit 0
+          fi
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          catalog_path = Path('catalog.json')
+          catalog = json.loads(catalog_path.read_text(encoding='utf-8'))
+          if catalog.get('schemaVersion') != 1 or not isinstance(catalog.get('entries'), list):
+              raise SystemExit('Invalid public mini-app catalog')
+          found = [x for x in catalog['entries'] if x.get('id') == 'local.chappy.recorder']
+          if len(found) != 1:
+              raise SystemExit('Expected exactly one Chappy Recorder entry')
+          app = found[0]
+          if app.get('version') != '0.1.0':
+              raise SystemExit('Only audited Chappy Recorder v0.1.0 may be promoted')
+          if app.get('channel') == 'stable':
+              stable = Path('stable/chappy-recorder-v0.1.0.chappy')
+              if not stable.is_file() or hashlib.sha256(stable.read_bytes()).hexdigest() != app.get('sha256'):
+                  raise SystemExit('Stable publication integrity mismatch')
+              print('Stable Chappy Recorder v0.1.0 already published and verified')
+              raise SystemExit(0)
+          if app.get('channel') != 'debug':
+              raise SystemExit('Refusing promotion from unexpected channel')
+          original = Path('debug/chappy-recorder-v0.1.0.chappy')
+          if not original.is_file():
+              raise SystemExit('Missing audited Debug Recorder package')
+          data = original.read_bytes()
+          if len(data) != app.get('sizeBytes') or hashlib.sha256(data).hexdigest() != app.get('sha256'):
+              raise SystemExit('Debug package does not match pinned public catalog')
+          with ZipFile(original) as archive:
+              manifest = json.loads(archive.read('manifest.json'))
+              if (manifest.get('id') != 'local.chappy.recorder'
+                      or manifest.get('version') != '0.1.0'
+                      or manifest.get('permissions') != ['camera','microphone']
+                      or 'index.html' not in archive.namelist()):
+                  raise SystemExit('Invalid recorded package identity/capabilities')
+          target = Path('stable/chappy-recorder-v0.1.0.chappy')
+          if target.exists():
+              raise SystemExit('Refusing to overwrite pre-existing Stable artifact')
+          target.parent.mkdir(exist_ok=True)
+          target.write_bytes(data)
+          app.update({
+              'channel': 'stable',
+              'description': '録画専用：前後カメラ・空き容量・画質・暗転録画・プライベート動画管理（Chappy Player v0.3.0以上に対応）',
+              'url': 'https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/stable/chappy-recorder-v0.1.0.chappy',
+          })
+          catalog_path.write_text(json.dumps(catalog, indent=2, ensure_ascii=False) + '\n',
+                                  encoding='utf-8')
+          print('Promoted identical audited Chappy Recorder package to Stable')
+          PY
+
+      - name: Commit Stable package and matching catalog in one change
+        run: |
+          if [ ! -f recorder-stable-host-approved.txt ]; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add catalog.json stable/
+          if git diff --cached --quiet; then
+            echo 'No changes; Stable promotion already complete'
+            exit 0
+          fi
+          git commit -m 'Promote verified Chappy Recorder v0.1.0 to Stable after signed host release'
+          git push origin HEAD:main
