@@ -11,6 +11,14 @@ Offline `.chappy` mini-app distribution for Chappy Player. The player loads `cat
 
 Installing or updating a mini-app from **Chappy Player → Chappy Apps → Debug** needs no manual ZIP import. Installing a mini-app does not update the host player's Android code: CameraX recording APIs require a compatible Debug APK until the feature is tested and shipped in the signed release.
 
+## Chappy Recorder Stable promotion
+
+Chappy Recorder v0.1.0 is promoted from Debug to **Stable** only after the official permanently signed **Chappy Player v0.3.0 or newer** APK update feed is published. The [promotion workflow](.github/workflows/promote-recorder-stable.yml) checks the public production update feed, verifies the existing Debug package SHA-256, size and manifest, then copies its **identical bytes** to `stable/chappy-recorder-v0.1.0.chappy` while changing the catalog entry to `channel: stable` in the same Git commit.
+
+This workflow checks on merge, manual dispatch and every six hours. If the official signed production player is still v0.2.4, it exits without publishing an incompatible Stable mini-app. Debug package bytes are retained as an archive. Once promoted, the [Recorder Debug publishing workflow](.github/workflows/sync-recorder-debug.yml) gracefully stops updating the Recorder catalog entry, without affecting Media Lab Debug or ASMR Stable.
+
+Users should install Chappy Player **v0.3.0+** before running Stable Chappy Recorder; its Android-native camera and storage APIs are missing from older production builds. App-private video storage and camera consent rules remain unchanged. Real-device QA is still required.
+
 ## Automatic Debug publishing
 
 The workflow [Sync Chappy Media Lab to Debug library](.github/workflows/sync-media-lab-debug.yml) runs every six hours and can also be run manually from Actions. It:
