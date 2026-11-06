@@ -30,6 +30,76 @@
       "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/stable/chappy-recorder-v0.1.0.chappy",
       "sha256": "4035aca2cff03c7b003691058e646cd803cd5846758980574a8b3a2eac8ae9af",
       "sizeBytes": 17844
+    },
+    {
+      "id": "local.chappy.memo",
+      "name": "メモ帳",
+      "description": "オフラインメモ帳。入力と保存データを確認するDebugサンプル",
+      "version": "0.1.0",
+      "channel": "debug",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/memo-v0.1.0.chappy",
+      "sha256": "d04c58e3bb82924e4de635fcc20a22aab32dc8cd3612ed18db07187637f190af",
+      "sizeBytes": 4844
+    },
+    {
+      "id": "local.chappy.recorder",
+      "name": "Chappy Recorder",
+      "description": "動画録画・暗転モード・プライベート動画管理の実験版（実機検証用）",
+      "version": "0.1.3",
+      "channel": "debug",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-recorder-v0.1.3.chappy",
+      "sha256": "02bca39e0637c7935bf0f61cf1a11908e7c0ed7e1d82e5989b4c63f3db681ae5",
+      "sizeBytes": 21838
+    },
+    {
+      "id": "local.chappy.device_lab",
+      "name": "Chappy Device Lab",
+      "description": "加速度・ジャイロ・端末振動を試せるセンサー検証アプリ",
+      "version": "0.2.0",
+      "channel": "debug",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-device-lab-v0.2.0.chappy",
+      "sha256": "830875e019c0445cb50688c015905ff2b0ebc48de92d902e301a3e8e9e8c3297",
+      "sizeBytes": 7164
+    },
+    {
+      "id": "local.chappy.file_lab",
+      "name": "Chappy File Lab",
+      "description": "明示的に選んだファイルの読取・保存などを試す実験アプリ",
+      "version": "0.2.2",
+      "channel": "debug",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-file-lab-v0.2.2.chappy",
+      "sha256": "a36432977676a79dea2d87ef85c6f31c24238bd5d9d3c1cdcb5bfa8b3e9c8919",
+      "sizeBytes": 14011
+    },
+    {
+      "id": "local.chappy.game_server_lab",
+      "name": "Chappy Game Server Lab",
+      "description": "手動指定のHTTPS/WSSゲームサーバー通信と入力送信を試す実験アプリ",
+      "version": "0.1.0",
+      "channel": "debug",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-game-server-lab-v0.1.0.chappy",
+      "sha256": "7df99b9c51ace5426b44728514066901d003f0719d50c0685410d75b335b1b73",
+      "sizeBytes": 7601
+    },
+    {
+      "id": "local.chappy.touch_lab",
+      "name": "Chappy Touch Lab",
+      "description": "マルチタッチ・ポインター描画・スワイプ応答の実験アプリ",
+      "version": "0.1.0",
+      "channel": "debug",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-touch-lab-v0.1.0.chappy",
+      "sha256": "fbfbbf0ff2600261ae583e51eacafeff0841e07cd9ca156085e9a4424537c4f5",
+      "sizeBytes": 4453
+    },
+    {
+      "id": "local.chappy.color_lab",
+      "name": "Chappy Color Lab",
+      "description": "RGBスライダー・グラデーション表示・カラーコピーの実験アプリ",
+      "version": "0.1.0",
+      "channel": "debug",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-color-lab-v0.1.0.chappy",
+      "sha256": "25ee2154269fbdc2eeb4eb04edb469f86a3b0f610b3b946baa71e6d5f88eb62b",
+      "sizeBytes": 4052
     }
   ]
 }
