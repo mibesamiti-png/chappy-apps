@@ -4,6 +4,7 @@ name: Promote Chappy Recorder to Stable after production v0.3.0
 # but ONLY when the public *signed* production APK update feed is compatible.
 on:
   push:
+    branches: [main]
     paths:
       - .github/workflows/promote-recorder-stable.yml
   workflow_dispatch:
