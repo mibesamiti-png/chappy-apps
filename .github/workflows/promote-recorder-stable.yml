@@ -2,6 +2,7 @@ name: Promote Chappy Recorder to Stable after production v0.3.0
 
 # Exactly one audited Debug Recorder package is copied byte-for-byte to Stable,
 # but ONLY when the public *signed* production APK update feed is compatible.
+# Production v0.3.0-b11 is now published; recheck the public signed feed.
 on:
   push:
     branches: [main]
