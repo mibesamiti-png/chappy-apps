@@ -1,5 +1,6 @@
 # Trigger after verified Chappy Player v0.1.5 Debug build (2026-11-06).
 name: Sync Chappy Media Lab to Debug library
+# Updates are version-gated; publishing is triggered by this workflow's changes or schedule.
 on:
   push:
     paths:
