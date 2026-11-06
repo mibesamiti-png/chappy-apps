@@ -20,6 +20,16 @@
       "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/media-probe-v0.1.6.chappy",
       "sha256": "6714e006dc9c840914245f49d262b7384a5ecd082f865d0837389b222e8d74a0",
       "sizeBytes": 30153
+    },
+    {
+      "id": "local.chappy.recorder",
+      "name": "Chappy Recorder",
+      "description": "録画専用：前後カメラ・空き容量・画質・暗転録画・プライベート動画管理（Debug実機検証版）",
+      "version": "0.1.0",
+      "channel": "debug",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-recorder-v0.1.0.chappy",
+      "sha256": "4035aca2cff03c7b003691058e646cd803cd5846758980574a8b3a2eac8ae9af",
+      "sizeBytes": 17844
     }
   ]
 }
