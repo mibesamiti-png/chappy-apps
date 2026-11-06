@@ -8,6 +8,7 @@ on:
       - "debug/**"
       - scripts/validate_catalog.py
       - .github/workflows/validate-catalog.yml
+      - .github/workflows/promote-recorder-stable.yml
   push:
     branches: [main]
     paths:
@@ -16,6 +17,7 @@ on:
       - "debug/**"
       - scripts/validate_catalog.py
       - .github/workflows/validate-catalog.yml
+      - .github/workflows/promote-recorder-stable.yml
 
 permissions:
   contents: read
