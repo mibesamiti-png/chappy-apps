@@ -79,19 +79,28 @@ jobs:
           if catalog.get('schemaVersion') != 1 or not isinstance(catalog.get('entries'), list):
               raise SystemExit('Invalid public mini-app catalog')
           found = [x for x in catalog['entries'] if x.get('id') == 'local.chappy.recorder']
-          if len(found) != 1:
-              raise SystemExit('Expected exactly one Chappy Recorder entry')
-          app = found[0]
+          stable_items = [x for x in found if x.get('channel') == 'stable']
+          debug_items = [x for x in found if x.get('channel') == 'debug']
+          if (len(stable_items) > 1 or len(debug_items) > 1 or
+                  len(stable_items) + len(debug_items) != len(found)):
+              raise SystemExit('Duplicate Recorder entries or unexpected channels')
+          if stable_items:
+              app = stable_items[0]
+              if app.get('version') != '0.1.0':
+                  raise SystemExit('Unexpected Stable Recorder version')
+              stable = Path('stable/chappy-recorder-v0.1.0.chappy')
+              if (not stable.is_file() or
+                      len(stable.read_bytes()) != app.get('sizeBytes') or
+                      hashlib.sha256(stable.read_bytes()).hexdigest() != app.get('sha256')):
+                  raise SystemExit('Stable publication integrity mismatch')
+              print('Stable Chappy Recorder v0.1.0 already published and verified; '
+                    'separate Debug entry preserved')
+              raise SystemExit(0)
+          if len(debug_items) != 1:
+              raise SystemExit('Expected exactly one audited Debug Recorder before promotion')
+          app = debug_items[0]
           if app.get('version') != '0.1.0':
               raise SystemExit('Only audited Chappy Recorder v0.1.0 may be promoted')
-          if app.get('channel') == 'stable':
-              stable = Path('stable/chappy-recorder-v0.1.0.chappy')
-              if not stable.is_file() or hashlib.sha256(stable.read_bytes()).hexdigest() != app.get('sha256'):
-                  raise SystemExit('Stable publication integrity mismatch')
-              print('Stable Chappy Recorder v0.1.0 already published and verified')
-              raise SystemExit(0)
-          if app.get('channel') != 'debug':
-              raise SystemExit('Refusing promotion from unexpected channel')
           original = Path('debug/chappy-recorder-v0.1.0.chappy')
           if not original.is_file():
               raise SystemExit('Missing audited Debug Recorder package')
