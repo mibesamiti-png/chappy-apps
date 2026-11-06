@@ -1,0 +1,127 @@
+name: Publish Chappy Recorder Debug mini-app
+
+# Publishes the exact version declared in chappy-player's tested build.
+on:
+  push:
+    paths:
+      - .github/workflows/sync-recorder-debug.yml
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+
+concurrency:
+  group: sync-chappy-recorder-debug
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish-recorder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout public mini-app catalog
+        uses: actions/checkout@v4
+      - name: Checkout Chappy Recorder source
+        uses: actions/checkout@v4
+        with:
+          repository: mibesamiti-png/chappy-player
+          ref: main
+          path: upstream
+          persist-credentials: false
+      - name: Check standalone recorder and package contracts
+        working-directory: upstream
+        run: |
+          node tools/test_chappy_recorder.js
+          python3 tools/test_native_video_contract.py
+          python3 tools/test_chappy_package_tools.py
+      - name: Publish new Recorder version only
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          import re
+          import subprocess
+          import sys
+          from zipfile import ZipFile
+
+          root = Path('.').resolve()
+          upstream = root / 'upstream'
+          build = (upstream / '.github/workflows/build-android.yml').read_text(encoding='utf-8')
+          match = re.search(
+              r"--name\s+'Chappy Recorder'\s*\\\s*--version\s+(\d+\.\d+\.\d+)", build)
+          if not match:
+              raise SystemExit('Missing tested Chappy Recorder version declaration')
+          version = match.group(1)
+          catalog_file = root / 'catalog.json'
+          catalog = json.loads(catalog_file.read_text(encoding='utf-8'))
+          if catalog.get('schemaVersion') != 1 or not isinstance(catalog.get('entries'), list):
+              raise SystemExit('Invalid public catalog')
+          entries = [item for item in catalog['entries']
+                     if item.get('id') == 'local.chappy.recorder']
+          if len(entries) > 1:
+              raise SystemExit('Duplicate Recorder entries')
+          old = entries[0] if entries else None
+          if old and old.get('channel') != 'debug':
+              raise SystemExit('Refusing to change an existing non-Debug app')
+          semver = lambda value: tuple(int(p) for p in value.split('.'))
+          if old and semver(version) <= semver(old['version']):
+              if semver(version) < semver(old['version']):
+                  raise SystemExit('Recorder downgrade refused')
+              print(f'Chappy Recorder {version} already published')
+              sys.exit(0)
+
+          file = root / 'debug' / f'chappy-recorder-v{version}.chappy'
+          if file.exists():
+              raise SystemExit('Refusing to overwrite a previously published package')
+          subprocess.run([
+              sys.executable, str(upstream / 'tools/pack_html_chappy.py'),
+              '--source', str(upstream / 'sample_apps/video_recorder'),
+              '--id', 'local.chappy.recorder',
+              '--name', 'Chappy Recorder',
+              '--version', version,
+              '--permission', 'camera', '--permission', 'microphone',
+              '--output', str(file),
+          ], check=True)
+          with ZipFile(file) as archive:
+              manifest = json.loads(archive.read('manifest.json'))
+              if manifest.get('id') != 'local.chappy.recorder' or (
+                  manifest.get('version') != version or
+                  manifest.get('permissions') != ['camera', 'microphone'] or
+                  'index.html' not in archive.namelist()):
+                  raise SystemExit('Wrong Recorder package manifest')
+          payload = file.read_bytes()
+          if not 100 <= len(payload) <= 12 * 1024 * 1024:
+              raise SystemExit('Recorder package out of bounds')
+          entry = {
+              'id': 'local.chappy.recorder',
+              'name': 'Chappy Recorder',
+              'description': '録画専用：前後カメラ・空き容量・画質・暗転録画・プライベート動画管理（Debug実機検証版）',
+              'version': version,
+              'channel': 'debug',
+              'url': f'https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/{file.name}',
+              'sha256': hashlib.sha256(payload).hexdigest(),
+              'sizeBytes': len(payload),
+          }
+          if old:
+              old.clear()
+              old.update(entry)
+          else:
+              catalog['entries'].append(entry)
+          catalog_file.write_text(
+              json.dumps(catalog, indent=2, ensure_ascii=False) + '\n',
+              encoding='utf-8')
+          print(f'Prepared Chappy Recorder {version} ({len(payload)} bytes) with SHA-256')
+          PY
+      - name: Commit matching package and catalog together
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add debug/ catalog.json
+          if git diff --cached --quiet; then
+            echo 'No new Recorder version'
+            exit 0
+          fi
+          git commit -m 'Publish Chappy Recorder Debug mini-app'
+          git push origin HEAD:main
