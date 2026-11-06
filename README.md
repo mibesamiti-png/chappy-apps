@@ -1,14 +1,25 @@
 # Chappy Apps — public mini-app catalog
 
-Offline `.chappy` mini-app distribution for Chappy Player.
+Offline `.chappy` mini-app distribution for Chappy Player. The player loads `catalog.json` from the public `main` branch and verifies each package's SHA-256, size, manifest ID and version before install.
 
-- `stable/asmr-sound-lab.chappy`: ASMR Sound Lab v1.4.0
-- `debug/media-probe-v0.1.2.chappy`: Chappy Media Lab v0.1.2 (experimental camera resolution / microphone diagnostics; microphone capture is not yet verified on device)
-- `debug/media-probe.chappy`: previous Chappy Media Lab v0.1.1 kept for manual rollback
-- `catalog.json`: schema v1 with measured SHA-256 and byte size
+## Current catalog
 
-The player fetches `catalog.json` from `main` and validates matching packages before asking the user to install them. Updating `.chappy` packages does **not** require updating the player APK.
+- **Stable** — `stable/asmr-sound-lab.chappy`: ASMR Sound Lab v1.4.0
+- **Debug** — `debug/media-probe-v0.1.4.chappy`: Chappy Media Lab v0.1.4, native CameraX video, dark recording UI and private video library. **Android physical-device QA is still required.**
+- The older `debug/media-probe-v0.1.2.chappy` and `debug/media-probe.chappy` files remain for manual rollback but are **not** advertised by `catalog.json`.
 
-**Public repo:** everything in this repository is publicly downloadable. Never commit personal data, private source, API keys, keystores, or tokens.
+Installing or updating a mini-app from **Chappy Player → Chappy Apps → Debug** needs no manual ZIP import. Installing a mini-app does not update the host player's Android code: CameraX recording APIs require a compatible Debug APK until the feature is tested and shipped in the signed release.
 
-When replacing a package, regenerate the catalog from the real package bytes and ensure the ID and version match its `manifest.json`. The player only permits trusted packages created by the owner.
+## Automatic Debug publishing
+
+The workflow [Sync Chappy Media Lab to Debug library](.github/workflows/sync-media-lab-debug.yml) runs every six hours and can also be run manually from Actions. It:
+
+1. Checks out the public `mibesamiti-png/chappy-player` main branch and runs Media Lab Node/Python smoke tests.
+2. Reads the authoritative Media Lab version from that repo's Android build workflow.
+3. **Only for a higher version**, packages the source with `pack_html_chappy.py` and checks its manifest, media permissions and ZIP size.
+4. Updates exactly the Media Lab **Debug** entry with a computed SHA-256 and byte size. The ASMR Stable entry is untouched.
+5. Commits the new `.chappy` and matching `catalog.json` together. The same version is never rebuilt/replaced, preventing silent same-version payload changes or accidental downgrades.
+
+When changing Media Lab, bump the `--version` used in `chappy-player/.github/workflows/build-android.yml` as part of the source update; without a version bump, the Debug publisher intentionally does nothing. GitHub Actions and source checks do not replace Android physical-device QA.
+
+**Public repository:** everything stored here can be downloaded by anyone, including Debug packages. Never commit personal user data, device diagnostics, private credentials, keystores, or access tokens. Releases are explicitly approved by Chappy Player before installation.
