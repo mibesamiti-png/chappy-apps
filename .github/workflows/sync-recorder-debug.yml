@@ -60,14 +60,16 @@ jobs:
               raise SystemExit('Invalid public catalog')
           entries = [item for item in catalog['entries']
                      if item.get('id') == 'local.chappy.recorder']
-          if len(entries) > 1:
-              raise SystemExit('Duplicate Recorder entries')
-          old = entries[0] if entries else None
-          if old and old.get('channel') == 'stable':
-              print('Chappy Recorder is promoted to Stable; Debug auto-publishing disabled')
+          stable = [item for item in entries if item.get('channel') == 'stable']
+          debug = [item for item in entries if item.get('channel') == 'debug']
+          if len(stable) > 1 or len(debug) > 1 or len(stable) + len(debug) != len(entries):
+              raise SystemExit('Duplicate or unsupported Recorder channel entries')
+          if stable:
+              # Preserve the already-promoted Stable Recorder. A separate
+              # manually reviewed Debug version may coexist in the catalog.
+              print('Chappy Recorder Stable already exists; automated Debug publishing disabled')
               sys.exit(0)
-          if old and old.get('channel') != 'debug':
-              raise SystemExit('Refusing to change an existing non-Debug app')
+          old = debug[0] if debug else None
           semver = lambda value: tuple(int(p) for p in value.split('.'))
           if old and semver(version) <= semver(old['version']):
               if semver(version) < semver(old['version']):

@@ -6,10 +6,23 @@ Offline `.chappy` mini-app distribution for Chappy Player. The player loads `cat
 
 - **Stable** — `stable/asmr-sound-lab.chappy`: ASMR Sound Lab v1.4.0
 - **Debug** — `debug/media-probe-v0.1.6.chappy`: Chappy Media Lab v0.1.6, native CameraX recording, one-tap dark capture, immersive system bars, a tiny red/green status LED, session-approved volume-key restart, and private video list/play/delete. **Android physical-device QA is still required.**
-- **Debug** — `debug/chappy-recorder-v0.1.0.chappy`: **Chappy Recorder v0.1.0**, a standalone mini-app with rear/front camera toggle, internal free/total storage meter, 720p/1080p quality, private/gallery destination, one-tap dark recording, private video playback/deletion, and swipe brightness gestures near the status LED. **Native storage/brightness features need a matching new Debug APK; physical-device QA is pending.**
+- **Debug** — `debug/chappy-recorder-v0.1.3.chappy`: **Chappy Recorder v0.1.3**, a standalone recording mini-app for private video, dark mode and camera controls. A compatible Chappy Player is required; **physical-device QA is pending**.
+- **Debug** — `debug/memo-v0.1.0.chappy`: メモ帳 — editable local notes and persistence.
+- **Debug** — `debug/chappy-device-lab-v0.2.0.chappy`: Device Lab — motion sensors and haptic feedback.
+- **Debug** — `debug/chappy-file-lab-v0.2.2.chappy`: File Lab — user-approved text/JSON documents and assets.
+- **Debug** — `debug/chappy-game-server-lab-v0.1.0.chappy`: Game Server Lab — user-supplied HTTPS/WSS endpoints, opt-in motion and haptics.
+- **Debug** — `debug/chappy-touch-lab-v0.1.0.chappy`: Touch Lab — multi-pointer input and drag drawing (no permissions).
+- **Debug** — `debug/chappy-color-lab-v0.1.0.chappy`: Color Lab — RGB sliders, gradients and optional clipboard (no permissions).
+- **Stable** — Chappy Recorder v0.1.0 remains separately available. The Debug v0.1.3 and Stable v0.1.0 entries share an app ID but are different channels/versions; installing the newer Debug entry updates the installed mini-app with the usual in-app confirmation.
 - The older `debug/media-probe-v0.1.2.chappy` and `debug/media-probe.chappy` files remain for manual rollback but are **not** advertised by `catalog.json`.
 
 Installing or updating a mini-app from **Chappy Player → Chappy Apps → Debug** needs no manual ZIP import. Installing a mini-app does not update the host player's Android code: CameraX recording APIs require a compatible Debug APK until the feature is tested and shipped in the signed release.
+
+## Eight Debug mini-apps from the public catalog
+
+The public catalog now lists **eight Debug entries** (Media Lab plus seven additional examples), and two existing Stable entries. These are **downloadable mini-app packages**, not preinstalled Android APK features. In the Chappy Player **Chappy Apps → Debug** tab, refresh the list and install the samples you want individually. Camera, microphone, motion, files and internet use remain user-initiated and permission-gated by the host. All Debug examples are publicly visible; never put personal test data or credentials in this repository.
+
+The seven packages were generated from an exact reviewed Chappy Player source commit and verified alongside `catalog.json` (ZIP contents, permission manifest, file size, SHA-256) using [the one-shot branch preparation workflow](.github/workflows/prepare-debug-labs.yml) and [its publisher validator](scripts/publish_debug_labs.py). Existing **Stable** file hashes and the Media Lab Debug entry are unchanged. The legacy Recorder and Media Lab ZIPs remain available in `debug/` for manual rollback, even when not listed in the live catalog.
 
 ## Chappy Recorder Stable promotion
 
