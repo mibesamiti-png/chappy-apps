@@ -59,7 +59,7 @@ def verify_file(data: bytes, app: tuple, row: dict) -> None:
         if (manifest["id"] != row["id"] or
                 manifest["name"] != row["name"] or
                 manifest["version"] != row["version"] or
-                manifest["permissions"] != app[4]):
+                manifest["permissions"] != list(app[4])):
             raise ValueError("Packaged identity or permissions changed")
 
 
