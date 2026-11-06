@@ -63,6 +63,9 @@ jobs:
           if len(entries) > 1:
               raise SystemExit('Duplicate Recorder entries')
           old = entries[0] if entries else None
+          if old and old.get('channel') == 'stable':
+              print('Chappy Recorder is promoted to Stable; Debug auto-publishing disabled')
+              sys.exit(0)
           if old and old.get('channel') != 'debug':
               raise SystemExit('Refusing to change an existing non-Debug app')
           semver = lambda value: tuple(int(p) for p in value.split('.'))
