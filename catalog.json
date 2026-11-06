@@ -15,11 +15,11 @@
       "id": "local.chappy.media_probe",
       "name": "Chappy Media Lab",
       "description": "ネイティブ動画録画・暗転モード・非公開動画ライブラリのDebug検証版（Android実機未検証）",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "channel": "debug",
-      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/media-probe-v0.1.4.chappy",
-      "sha256": "b86cfe13e97039e9ff21985436bbcaf4bfd2051a1ee624839bddfac429a144c5",
-      "sizeBytes": 27936
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/media-probe-v0.1.5.chappy",
+      "sha256": "37cbd63ec83366a67321bb926fb3ef3bf5a048779e0adebf1dff9c1589439945",
+      "sizeBytes": 29313
     }
   ]
 }
