@@ -1,0 +1,120 @@
+name: Sync Chappy Media Lab to Debug library
+on:
+  push:
+    paths:
+      - .github/workflows/sync-media-lab-debug.yml
+  workflow_dispatch:
+  schedule:
+    - cron: '27 */6 * * *'
+
+concurrency:
+  group: sync-media-lab-debug
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync-debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout public Chappy Apps catalog
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Checkout Chappy Player mini-app source
+        uses: actions/checkout@v4
+        with:
+          repository: mibesamiti-png/chappy-player
+          ref: main
+          path: upstream
+          persist-credentials: false
+      - name: Test current Media Lab before Debug publication
+        working-directory: upstream
+        run: |
+          node tools/test_media_probe.js
+          node tools/test_media_lab_diagnostics.js
+          node tools/test_media_lab_video.js
+          python3 tools/test_chappy_package_tools.py
+      - name: Publish only when Media Lab version advances
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          import re
+          import subprocess
+          import sys
+          from zipfile import ZipFile
+
+          root = Path('.').resolve()
+          upstream = root / 'upstream'
+          workflow = (upstream / '.github/workflows/build-android.yml').read_text(encoding='utf-8')
+          pattern = r"--name\s+'Chappy Media Lab'\s*\\\s*--version\s+(\d+\.\d+\.\d+)"
+          match = re.search(pattern, workflow)
+          if not match:
+              raise SystemExit('Cannot find Media Lab version in upstream build workflow')
+          version = match.group(1)
+          catalog_path = root / 'catalog.json'
+          catalog = json.loads(catalog_path.read_text(encoding='utf-8'))
+          if catalog.get('schemaVersion') != 1 or not isinstance(catalog.get('entries'), list):
+              raise SystemExit('Invalid catalog')
+          targets = [e for e in catalog['entries']
+                     if e.get('channel') == 'debug' and e.get('id') == 'local.chappy.media_probe']
+          if len(targets) != 1:
+              raise SystemExit('Expected exactly one Debug Media Lab entry')
+          previous = targets[0]
+          old_version = previous['version']
+          semver = lambda v: tuple(map(int, v.split('.')))
+          if semver(version) < semver(old_version):
+              raise SystemExit(f'Refusing downgrade: {old_version} -> {version}')
+          if semver(version) == semver(old_version):
+              print(f'Media Lab {version} already cataloged; no update needed')
+              sys.exit(0)
+
+          output = root / 'debug' / f'media-probe-v{version}.chappy'
+          if output.exists():
+              raise SystemExit(f'Refusing to overwrite existing package: {output}')
+          subprocess.run([
+              sys.executable, str(upstream / 'tools/pack_html_chappy.py'),
+              '--source', str(upstream / 'sample_apps/media_probe'),
+              '--id', 'local.chappy.media_probe',
+              '--name', 'Chappy Media Lab',
+              '--version', version,
+              '--permission', 'camera',
+              '--permission', 'microphone',
+              '--output', str(output),
+          ], check=True)
+          with ZipFile(output) as archive:
+              manifest = json.loads(archive.read('manifest.json'))
+              assert manifest['id'] == 'local.chappy.media_probe'
+              assert manifest['version'] == version
+              assert manifest['permissions'] == ['camera', 'microphone']
+              assert 'index.html' in archive.namelist()
+          data = output.read_bytes()
+          if not (100 < len(data) <= 12 * 1024 * 1024):
+              raise SystemExit('Invalid .chappy package size')
+          previous.update({
+              'name': 'Chappy Media Lab',
+              'description': 'ネイティブ動画録画・暗転モード・非公開動画ライブラリのDebug検証版（Android実機未検証）',
+              'version': version,
+              'channel': 'debug',
+              'url': f'https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/{output.name}',
+              'sha256': hashlib.sha256(data).hexdigest(),
+              'sizeBytes': len(data),
+          })
+          catalog_path.write_text(json.dumps(catalog, indent=2, ensure_ascii=False) + '\n',
+                                  encoding='utf-8')
+          print(f'Prepared Debug Media Lab {version}: {len(data)} bytes, sha256={previous["sha256"]}')
+          PY
+      - name: Commit Debug package and matching catalog atomically
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add catalog.json debug/
+          if git diff --cached --quiet; then
+            echo 'No new Debug Media Lab version'
+            exit 0
+          fi
+          git commit -m 'Publish new Chappy Media Lab Debug mini-app'
+          git push origin HEAD:main
