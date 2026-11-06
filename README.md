@@ -6,6 +6,7 @@ Offline `.chappy` mini-app distribution for Chappy Player. The player loads `cat
 
 - **Stable** — `stable/asmr-sound-lab.chappy`: ASMR Sound Lab v1.4.0
 - **Debug** — `debug/media-probe-v0.1.6.chappy`: Chappy Media Lab v0.1.6, native CameraX recording, one-tap dark capture, immersive system bars, a tiny red/green status LED, session-approved volume-key restart, and private video list/play/delete. **Android physical-device QA is still required.**
+- **Debug** — `debug/chappy-recorder-v0.1.0.chappy`: **Chappy Recorder v0.1.0**, a standalone mini-app with rear/front camera toggle, internal free/total storage meter, 720p/1080p quality, private/gallery destination, one-tap dark recording, private video playback/deletion, and swipe brightness gestures near the status LED. **Native storage/brightness features need a matching new Debug APK; physical-device QA is pending.**
 - The older `debug/media-probe-v0.1.2.chappy` and `debug/media-probe.chappy` files remain for manual rollback but are **not** advertised by `catalog.json`.
 
 Installing or updating a mini-app from **Chappy Player → Chappy Apps → Debug** needs no manual ZIP import. Installing a mini-app does not update the host player's Android code: CameraX recording APIs require a compatible Debug APK until the feature is tested and shipped in the signed release.
@@ -19,6 +20,8 @@ The workflow [Sync Chappy Media Lab to Debug library](.github/workflows/sync-med
 3. **Only for a higher version**, packages the source with `pack_html_chappy.py` and checks its manifest, media permissions and ZIP size.
 4. Updates exactly the Media Lab **Debug** entry with a computed SHA-256 and byte size. The ASMR Stable entry is untouched.
 5. Commits the new `.chappy` and matching `catalog.json` together. The same version is never rebuilt/replaced, preventing silent same-version payload changes or accidental downgrades.
+
+The [Chappy Recorder Debug publisher](.github/workflows/sync-recorder-debug.yml) independently checks the standalone recorder source and publishes only a new Recorder version into the Debug catalog; it never overwrites the Media Lab entry or Stable app.
 
 When changing Media Lab, bump the `--version` used in `chappy-player/.github/workflows/build-android.yml` as part of the source update; without a version bump, the Debug publisher intentionally does nothing. GitHub Actions and source checks do not replace Android physical-device QA.
 
