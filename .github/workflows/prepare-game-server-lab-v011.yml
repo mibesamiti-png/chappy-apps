@@ -1,0 +1,61 @@
+name: Prepare Game Server Lab v0.1.1 Debug catalog update
+
+# One-shot, branch-scoped package preparation. Does not publish to main.
+on:
+  push:
+    branches:
+      - fix/game-server-lab-debug-v0-1-1-20261107
+    paths:
+      - .github/workflows/prepare-game-server-lab-v011.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reviewed-game-server-lab-v011
+  cancel-in-progress: false
+
+jobs:
+  package-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout reviewed public catalog branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Checkout exact Android-CI-tested Game Server Lab source
+        uses: actions/checkout@v4
+        with:
+          repository: mibesamiti-png/chappy-player
+          ref: 01b81bb37acb4dc5c29d5e6872c13fc84b7d7978
+          path: upstream
+          persist-credentials: false
+      - name: Verify source commit and JavaScript/host contracts
+        run: |
+          test "$(git -C upstream rev-parse HEAD)" = "01b81bb37acb4dc5c29d5e6872c13fc84b7d7978"
+          cd upstream
+          node tools/test_game_server_lab.js
+          node tools/test_bootstrap.js
+          python3 tools/test_game_network_contract.py
+          python3 tools/test_chappy_package_tools.py
+      - name: Package reviewed Debug v0.1.1 and verify complete public catalog
+        run: python3 scripts/publish_game_server_lab_debug.py upstream
+      - name: Fail if any existing Stable package was modified
+        run: |
+          if git diff --name-only | grep '^stable/'; then
+            echo 'Stable files must not change'
+            exit 1
+          fi
+          test "${GITHUB_REF_NAME}" = "fix/game-server-lab-debug-v0-1-1-20261107"
+      - name: Commit only new verified .chappy and catalog to review branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add catalog.json debug/chappy-game-server-lab-v0.1.1.chappy
+          git diff --cached --stat
+          if git diff --cached --quiet; then
+            echo 'No Debug catalog update'
+            exit 0
+          fi
+          git commit -m 'Publish Game Server Lab v0.1.1 with POST and WSS diagnostics in Debug'
+          git push origin HEAD:fix/game-server-lab-debug-v0-1-1-20261107

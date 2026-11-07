@@ -10,7 +10,7 @@ Offline `.chappy` mini-app distribution for Chappy Player. The player loads `cat
 - **Debug** — `debug/memo-v0.1.0.chappy`: メモ帳 — editable local notes and persistence.
 - **Debug** — `debug/chappy-device-lab-v0.2.0.chappy`: Device Lab — motion sensors and haptic feedback.
 - **Debug** — `debug/chappy-file-lab-v0.2.2.chappy`: File Lab — user-approved text/JSON documents and assets.
-- **Debug** — `debug/chappy-game-server-lab-v0.1.0.chappy`: Game Server Lab — user-supplied HTTPS/WSS endpoints, opt-in motion and haptics.
+- **Debug** — `debug/chappy-game-server-lab-v0.1.1.chappy`: Game Server Lab — user-supplied HTTPS/WSS endpoints, opt-in motion and haptics.
 - **Debug** — `debug/chappy-touch-lab-v0.1.0.chappy`: Touch Lab — multi-pointer input and drag drawing (no permissions).
 - **Debug** — `debug/chappy-color-lab-v0.1.0.chappy`: Color Lab — RGB sliders, gradients and optional clipboard (no permissions).
 - **Stable** — Chappy Recorder v0.1.0 remains separately available. The Debug v0.1.3 and Stable v0.1.0 entries share an app ID but are different channels/versions; installing the newer Debug entry updates the installed mini-app with the usual in-app confirmation.
@@ -47,3 +47,11 @@ The [Chappy Recorder Debug publisher](.github/workflows/sync-recorder-debug.yml)
 When changing Media Lab, bump the `--version` used in `chappy-player/.github/workflows/build-android.yml` as part of the source update; without a version bump, the Debug publisher intentionally does nothing. GitHub Actions and source checks do not replace Android physical-device QA.
 
 **Public repository:** everything stored here can be downloaded by anyone, including Debug packages. Never commit personal user data, device diagnostics, private credentials, keystores, or access tokens. Releases are explicitly approved by Chappy Player before installation.
+
+## Game Server Lab Debug v0.1.1 — POST/WSS 実機デバッグ改善
+
+- **Chappy Apps 公開ライブラリ → Debug → 更新 → Chappy Game Server Lab (0.1.1)** から旧v0.1.0を明示的に更新できます。APKの再インストールは、このミニアプリの画面修正だけなら不要です。
+- HTTPS API欄にPOST専用JSONテキストを追加し、上段のWSS送信欄と混同しないレイアウトに変更。GET/POST/WSSのテスト用URLはボタンで入力できますが、押しただけでは通信しません。
+- WSSが接続中のまま続く問題は、v0.1.1側で30秒のUIタイムアウトと失敗ログを導入。ホスト（Chappy Player本体）の45秒ブリッジタイムアウトと接続中断処理の改善は**新しいAndroid Debug APK**が必要です。
+- 外部接続は既存のHTTPS/WSS・公開DNS・TLS必須、個別のサーバー接続許可、プライベートIP拒否を維持。Postmanエコーサーバーは第三者サービスのため秘密情報や個人データは送らないでください。
+- Debug旧v0.1.0の .chappy はロールバック用に削除しません。Stableの2つのミニアプリは変更しません。実Android上のWSSエコー接続成立はまだ再検証待ちです。
