@@ -74,12 +74,12 @@
     {
       "id": "local.chappy.game_server_lab",
       "name": "Chappy Game Server Lab",
-      "description": "手動指定のHTTPS/WSSゲームサーバー通信と入力送信を試す実験アプリ",
-      "version": "0.1.0",
+      "description": "HTTPSのJSON送信欄を独立、WSS接続失敗と30秒待機上限を表示するGame Server LabのDebug検証版（実機通信確認待ち）",
+      "version": "0.1.1",
       "channel": "debug",
-      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-game-server-lab-v0.1.0.chappy",
-      "sha256": "7df99b9c51ace5426b44728514066901d003f0719d50c0685410d75b335b1b73",
-      "sizeBytes": 7601
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-game-server-lab-v0.1.1.chappy",
+      "sha256": "afaaf8ef22099171ffda202d87153d5747488092355312a55ac30ee2519e6e3e",
+      "sizeBytes": 10606
     },
     {
       "id": "local.chappy.touch_lab",
