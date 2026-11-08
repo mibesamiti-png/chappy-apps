@@ -27,6 +27,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: true
+          ref: ${{ github.head_ref || github.ref_name }}
       - name: Checkout exact reviewed Chappy Player source
         uses: actions/checkout@v4
         with:
@@ -46,7 +47,7 @@ jobs:
         run: python3 scripts/refresh_debug_r3.py upstream
       - name: Stage exact three new immutable packages and catalog metadata
         run: |
-          test "$GITHUB_REF_NAME" = "feat/debug-r3-labs-refresh-20261108"
+          test "${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" = "feat/debug-r3-labs-refresh-20261108"
           test -f debug/chappy-device-lab-v0.2.1.chappy
           test -f debug/chappy-file-lab-v0.2.3.chappy
           test -f debug/chappy-game-server-lab-v0.1.2.chappy
