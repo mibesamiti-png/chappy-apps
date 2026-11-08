@@ -8,9 +8,9 @@ Offline `.chappy` mini-app distribution for Chappy Player. The player loads `cat
 - **Debug** — `debug/media-probe-v0.1.6.chappy`: Chappy Media Lab v0.1.6, native CameraX recording, one-tap dark capture, immersive system bars, a tiny red/green status LED, session-approved volume-key restart, and private video list/play/delete. **Android physical-device QA is still required.**
 - **Debug** — `debug/chappy-recorder-v0.1.3.chappy`: **Chappy Recorder v0.1.3**, a standalone recording mini-app for private video, dark mode and camera controls. A compatible Chappy Player is required; **physical-device QA is pending**.
 - **Debug** — `debug/memo-v0.1.0.chappy`: メモ帳 — editable local notes and persistence.
-- **Debug** — `debug/chappy-device-lab-v0.2.0.chappy`: Device Lab — motion sensors and haptic feedback.
-- **Debug** — `debug/chappy-file-lab-v0.2.2.chappy`: File Lab — user-approved text/JSON documents and assets.
-- **Debug** — `debug/chappy-game-server-lab-v0.1.1.chappy`: Game Server Lab — user-supplied HTTPS/WSS endpoints, opt-in motion and haptics.
+- **Debug** — `debug/chappy-device-lab-v0.2.1.chappy`: Device Lab — motion sensors and haptic feedback.
+- **Debug** — `debug/chappy-file-lab-v0.2.3.chappy`: File Lab — user-approved text/JSON documents and assets.
+- **Debug** — `debug/chappy-game-server-lab-v0.1.2.chappy`: Game Server Lab — user-supplied HTTPS/WSS endpoints, opt-in motion and haptics.
 - **Debug** — `debug/chappy-touch-lab-v0.1.0.chappy`: Touch Lab — multi-pointer input and drag drawing (no permissions).
 - **Debug** — `debug/chappy-color-lab-v0.1.0.chappy`: Color Lab — RGB sliders, gradients and optional clipboard (no permissions).
 - **Stable** — Chappy Recorder v0.1.0 remains separately available. The Debug v0.1.3 and Stable v0.1.0 entries share an app ID but are different channels/versions; installing the newer Debug entry updates the installed mini-app with the usual in-app confirmation.
@@ -48,10 +48,20 @@ When changing Media Lab, bump the `--version` used in `chappy-player/.github/wor
 
 **Public repository:** everything stored here can be downloaded by anyone, including Debug packages. Never commit personal user data, device diagnostics, private credentials, keystores, or access tokens. Releases are explicitly approved by Chappy Player before installation.
 
-## Game Server Lab Debug v0.1.1 — POST/WSS 実機デバッグ改善
+## Game Server Lab Debug v0.1.2 — R2 通信診断の改善
 
-- **Chappy Apps 公開ライブラリ → Debug → 更新 → Chappy Game Server Lab (0.1.1)** から旧v0.1.0を明示的に更新できます。APKの再インストールは、このミニアプリの画面修正だけなら不要です。
+- **Chappy Apps 公開ライブラリ → Debug → 更新 → Chappy Game Server Lab (0.1.2)** から旧v0.1.0を明示的に更新できます。APKの再インストールは、このミニアプリの画面修正だけなら不要です。
 - HTTPS API欄にPOST専用JSONテキストを追加し、上段のWSS送信欄と混同しないレイアウトに変更。GET/POST/WSSのテスト用URLはボタンで入力できますが、押しただけでは通信しません。
 - WSSが接続中のまま続く問題は、v0.1.1側で30秒のUIタイムアウトと失敗ログを導入。ホスト（Chappy Player本体）の45秒ブリッジタイムアウトと接続中断処理の改善は**新しいAndroid Debug APK**が必要です。
 - 外部接続は既存のHTTPS/WSS・公開DNS・TLS必須、個別のサーバー接続許可、プライベートIP拒否を維持。Postmanエコーサーバーは第三者サービスのため秘密情報や個人データは送らないでください。
 - Debug旧v0.1.0の .chappy はロールバック用に削除しません。Stableの2つのミニアプリは変更しません。実Android上のWSSエコー接続成立はまだ再検証待ちです。
+
+## R2/R3 Debug mini-app update (2026-11-08)
+
+The public **Debug** catalog now advertises immutable refreshed packages generated from reviewed `chappy-player` source commit `6753d533df29b54c70d592d2f65914d85e3e0615`:
+
+- Device Lab **v0.2.1**: sensor availability, invalid-value guards, late-sample cancellation, redacted error messages
+- File Lab **v0.2.3**: 64KiB UTF-8/name preflight, safe stored drafts, transfer operation locking and progress guards
+- Game Server Lab **v0.1.2**: HTTPS/WSS status and traffic counts, JSON-object preflight, overlap/timeout safeguards and safe logs
+
+The packages and catalog SHA-256/size metadata were generated and validated together on a dedicated review branch using `scripts/refresh_debug_r3.py`. Previous Debug packages remain in `debug/` for manual rollback, while the two Stable catalog entries, Media Lab Debug v0.1.6, and Recorder Debug v0.1.3 remain unchanged. Android real-device validation is still pending. Installing the mini-apps requires a compatible Player host; `.chappy` updates do not fix a host APK crash.
