@@ -54,32 +54,32 @@
     {
       "id": "local.chappy.device_lab",
       "name": "Chappy Device Lab",
-      "description": "加速度・ジャイロ・端末振動を試せるセンサー検証アプリ",
-      "version": "0.2.0",
+      "description": "R3検証版：5種類のモーションセンサー、振動、傾き入力、不正値・停止後応答の保護（実機確認待ち）",
+      "version": "0.2.1",
       "channel": "debug",
-      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-device-lab-v0.2.0.chappy",
-      "sha256": "830875e019c0445cb50688c015905ff2b0ebc48de92d902e301a3e8e9e8c3297",
-      "sizeBytes": 7164
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-device-lab-v0.2.1.chappy",
+      "sha256": "990b8346df5df622b266ea30018bdd7b7a3cdfc636d44a416e4a02f40a13eaf0",
+      "sizeBytes": 8808
     },
     {
       "id": "local.chappy.file_lab",
       "name": "Chappy File Lab",
-      "description": "明示的に選んだファイルの読取・保存などを試す実験アプリ",
-      "version": "0.2.2",
+      "description": "R3検証版：テキスト・JSONの安全な読込保存、大容量保管庫、ZIP圧縮、転送進捗とキャンセル（実機確認待ち）",
+      "version": "0.2.3",
       "channel": "debug",
-      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-file-lab-v0.2.2.chappy",
-      "sha256": "a36432977676a79dea2d87ef85c6f31c24238bd5d9d3c1cdcb5bfa8b3e9c8919",
-      "sizeBytes": 14011
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-file-lab-v0.2.3.chappy",
+      "sha256": "bc59ec35e7ebe7fa19cee0e6c3d40ab190000bf914e64ee575cd734cad944b91",
+      "sizeBytes": 15610
     },
     {
       "id": "local.chappy.game_server_lab",
       "name": "Chappy Game Server Lab",
-      "description": "HTTPSのJSON送信欄を独立、WSS接続失敗と30秒待機上限を表示するGame Server LabのDebug検証版（実機通信確認待ち）",
-      "version": "0.1.1",
+      "description": "R2検証版：HTTPS GET/POST、WSS送受信件数、JSONチェック、30秒タイムアウト、秘匿ログ（実機確認待ち）",
+      "version": "0.1.2",
       "channel": "debug",
-      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-game-server-lab-v0.1.1.chappy",
-      "sha256": "afaaf8ef22099171ffda202d87153d5747488092355312a55ac30ee2519e6e3e",
-      "sizeBytes": 10606
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-game-server-lab-v0.1.2.chappy",
+      "sha256": "8934989dfe33311cb1f6d9b02c5a7c1dc1b030af98f4675e6eb8a85b01af29f5",
+      "sizeBytes": 13217
     },
     {
       "id": "local.chappy.touch_lab",
