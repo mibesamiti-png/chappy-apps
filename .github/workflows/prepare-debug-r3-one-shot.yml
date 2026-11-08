@@ -2,6 +2,10 @@ name: Prepare R3 Debug mini-app refresh (review branch only)
 
 # One-shot QA preview; NO Stable publication or main push from this job.
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/prepare-debug-r3-one-shot.yml
   push:
     branches:
       - feat/debug-r3-labs-refresh-20261108
