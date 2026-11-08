@@ -60,7 +60,10 @@ jobs:
             debug/chappy-file-lab-v0.2.3.chappy \
             debug/chappy-game-server-lab-v0.1.2.chappy
           git diff --cached --stat
-          git diff --cached --quiet && { echo 'Nothing to publish'; exit 1; }
+          if git diff --cached --quiet; then
+            echo 'Nothing to publish'
+            exit 1
+          fi
       - name: Commit verified Debug package files and catalog atomically to review branch
         run: |
           git config user.name 'github-actions[bot]'
