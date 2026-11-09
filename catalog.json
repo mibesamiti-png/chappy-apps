@@ -44,12 +44,12 @@
     {
       "id": "local.chappy.recorder",
       "name": "Chappy Recorder",
-      "description": "動画録画・暗転モード・プライベート動画管理の実験版（実機検証用）",
-      "version": "0.1.3",
+      "description": "開発版：動き検知スマート録画（静止で一時停止/自動終了）。新しいChappy Player Debug本体が必要。旧本体は通常録画のみ",
+      "version": "0.1.4",
       "channel": "debug",
-      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-recorder-v0.1.3.chappy",
-      "sha256": "02bca39e0637c7935bf0f61cf1a11908e7c0ed7e1d82e5989b4c63f3db681ae5",
-      "sizeBytes": 21838
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-recorder-motion-v0.1.4.chappy",
+      "sha256": "b6ea14d27fda2140c96dbd511075dc6e5f097b0c5a00b12e98af45285b1c0324",
+      "sizeBytes": 25850
     },
     {
       "id": "local.chappy.device_lab",
