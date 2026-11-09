@@ -100,6 +100,16 @@
       "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-color-lab-v0.1.0.chappy",
       "sha256": "25ee2154269fbdc2eeb4eb04edb469f86a3b0f610b3b946baa71e6d5f88eb62b",
       "sizeBytes": 4052
+    },
+    {
+      "id": "local.chappy.qa_checklist",
+      "name": "Chappy QA Checklist",
+      "description": "Network Lab実機デバッグの9項目をチェック。結果・進捗・コピー用報告をオフラインで管理（追加権限なし）",
+      "version": "0.1.0",
+      "channel": "debug",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-qa-checklist-v0.1.0.chappy",
+      "sha256": "26699be9aad879f96cb7dd85c601b41896eaf8d787b74c92f4da0ba47f0fb1db",
+      "sizeBytes": 19579
     }
   ]
 }
