@@ -48,8 +48,8 @@
       "version": "0.1.4",
       "channel": "debug",
       "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-recorder-motion-v0.1.4.chappy",
-      "sha256": "0df93b73cf220977a0fce3b350733b041ff000422542329961967fafd05ebfab",
-      "sizeBytes": 25858
+      "sha256": "b6ea14d27fda2140c96dbd511075dc6e5f097b0c5a00b12e98af45285b1c0324",
+      "sizeBytes": 25850
     },
     {
       "id": "local.chappy.device_lab",
