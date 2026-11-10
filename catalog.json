@@ -110,6 +110,16 @@
       "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-qa-checklist-v0.1.0.chappy",
       "sha256": "26699be9aad879f96cb7dd85c601b41896eaf8d787b74c92f4da0ba47f0fb1db",
       "sizeBytes": 19579
+    },
+    {
+      "id": "local.chappy.hubmobile",
+      "name": "Chappy Hub Mobile",
+      "description": "Android優先の指示セット・複数セッション・手動確認フロー・停止/再開・履歴のオフラインDebug版。ChatGPT操作・画面監視・自動送信は未実装。実機QA待ち。",
+      "version": "0.1.1",
+      "channel": "debug",
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-hub-mobile-v0.1.1.chappy",
+      "sha256": "8112475754b6406542fe77ab3aeb173bc9a525dfd7fc0b318004d409d584d8a5",
+      "sizeBytes": 9300
     }
   ]
 }
