@@ -44,12 +44,12 @@
     {
       "id": "local.chappy.recorder",
       "name": "Chappy Recorder",
-      "description": "開発版・実機検証待ち：画面OFFでも録画を継続（録画中通知と停止ボタン必須）。Android 11+／新しいDebug本体が必要。Androidの緑点は非表示にしません。通常・動き検知録画は維持",
-      "version": "0.1.5",
+      "description": "開発版：スマート録画は静止5秒で一時停止・動きで再開が標準。設定は最下部に収納、毎回の録画確認は本人が本体側で省略設定可（OSのカメラ権限/緑点と通知は維持）。画面OFF録画は実機検証待ち。新Debug APKが必要",
+      "version": "0.1.6",
       "channel": "debug",
-      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-recorder-screenoff-v0.1.5.chappy",
-      "sha256": "5a9fb6821bbaa5f3e615c1b88b92ae7fc3e01a551a1090d8a2511d2ff94ec5a4",
-      "sizeBytes": 27402
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-recorder-ux-v0.1.6.chappy",
+      "sha256": "1c967d73a8b864f971db7b5b255bbdb122ab0defaa1da6691c6b2c66a2a2cda1",
+      "sizeBytes": 31221
     },
     {
       "id": "local.chappy.device_lab",
