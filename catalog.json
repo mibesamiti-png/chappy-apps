@@ -44,12 +44,12 @@
     {
       "id": "local.chappy.recorder",
       "name": "Chappy Recorder",
-      "description": "開発版：スマート録画は静止5秒で一時停止・動いたら再開が標準。設定は最下部に収納、DEBUG横の説明ON/OFF切替を追加。毎回の録画確認は本人が本体側で省略設定可（Androidの権限・緑点・画面OFF通知は維持）。新Debug APK必須・実機QA待ち",
-      "version": "0.1.6",
+      "description": "開発版：静止5秒で保存一時停止、動作再開が標準。Android通知も「録画中／一時停止中」に連動。説明ON/OFFは最下部のスマート録画・確認設定内に移動。開始できない場合は理由を表示。確認の省略は本人が任意設定可。新しいDebug本体が必要、実機QA待ち",
+      "version": "0.1.7",
       "channel": "debug",
-      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-recorder-ux-v0.1.6.chappy",
-      "sha256": "cae89142d613af8fbf7118749ccdc924af1951902663452797f238bb9e06dc1e",
-      "sizeBytes": 32525
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-recorder-camrec16-v0.1.7.chappy",
+      "sha256": "5a18b751848a09fbfc5cbadda7d7ff795b6b2635616d8f621f97e30c57a9440d",
+      "sizeBytes": 33228
     },
     {
       "id": "local.chappy.device_lab",
