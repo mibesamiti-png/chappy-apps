@@ -114,12 +114,12 @@
     {
       "id": "local.chappy.hubmobile",
       "name": "Chappy Hub Mobile",
-      "description": "Android優先の指示セット・複数セッション・手動確認フロー・停止/再開・履歴のオフラインDebug版。ChatGPT操作・画面監視・自動送信は未実装。実機QA待ち。",
-      "version": "0.1.1",
+      "description": "Android優先R1。指示セット・複数チャット・停止/再開・履歴に加え、確認付きコピー/共有画面/ChatGPT起動を追加。新しいChappy Player Debug本体が必要。自動送信や回答取得は未実装。実機QA待ち。",
+      "version": "0.2.0",
       "channel": "debug",
-      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-hub-mobile-v0.1.1.chappy",
-      "sha256": "8112475754b6406542fe77ab3aeb173bc9a525dfd7fc0b318004d409d584d8a5",
-      "sizeBytes": 9300
+      "url": "https://raw.githubusercontent.com/mibesamiti-png/chappy-apps/main/debug/chappy-hub-mobile-v0.2.0.chappy",
+      "sha256": "9a5ec121fa67dbad96861118a50f069527a8ef11ae682d4e4907bf38710324e1",
+      "sizeBytes": 9867
     }
   ]
 }
